@@ -41,6 +41,20 @@ const postsController = {
             })
         }
     },
+    getByIdHastane: async (req, res) => {//doktorun idsine göre doktoru listeleme
+        try {
+            const { id } = req.params
+            const [rows, fields] = await pool.query("select * from hastaneler h where id =?", [id])
+            res.json({
+                data: rows
+            })
+        } catch (error) {
+            console.log(error)
+            res.json({
+                status: "error"
+            })
+        }
+    },
     getallhospital: async (req, res) => {
         try {
             const [rows, fields] = await pool.query("select * from hastaneler h ")
