@@ -4,7 +4,7 @@ const postsController=require("../controller/posts.controller")
 //aa
 router.get("/",postsController.getAll)
 router.get("/hastaneler", postsController.getallhospital)
-router.get("/hastaneler/:id", postsController.getallhospital)
+router.get("/hastaneler/:id", postsController.getByIdHastane)
 
 router.get("/doktorlar",postsController.getAlldocktors)
 router.get("/doktorlar/:id", postsController.getById)
