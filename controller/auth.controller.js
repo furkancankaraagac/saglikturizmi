@@ -10,8 +10,7 @@ const authController = {
             const [user, ] = await pool.query("select * from users where email = ?", [email])
             if (user[0]) return res.json({ error: "Email already exists!" })
             
-        const salt = await bcryptjs.genSaltSync(8);
-        const hash = await bcryptjs.hashSync(password, salt);
+            const hash = await bcryptjs.hashSync(password, 10);
 
             const sql = "insert into users (email, password, username,role) values (?, ?, ?,'client')"
             const [rows, fields] = await pool.query(sql, [email, hash, username])
