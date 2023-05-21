@@ -8,7 +8,7 @@ const authController = {
         try {
             const { email, password, username } = req.body
             const [user, ] = await pool.query("select * from users where email = ?", [email])
-            if (user[0]) return res.json({ error: "Email already exists!" })
+            if (user[0]) return res.status(401).json({ error: "Email already exists!" })
             
             const hash = await bcryptjs.hashSync(password, 10);
 
@@ -16,9 +16,9 @@ const authController = {
             const [rows, fields] = await pool.query(sql, [email, hash, username])
 
             if (rows.affectedRows) {
-                return res.json({ message: "Kullanıcı Başarıyla Oluşturuldu" })
+                return res.status(200).json({ message: "Kullanıcı Başarıyla Oluşturuldu" })
             } else {
-                return res.json({ error: "Error" })
+                return res.status(401).json({ error: "Error" })
             }
             
         } catch (error) {
@@ -34,7 +34,7 @@ const authController = {
           const [user, ] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
           
           if (!user[0]) {
-            return res.json({ error: "Böyle bir kullanıcı bulunamadı!" });
+            return res.status(401).json({ error: "Böyle bir kullanıcı bulunamadı!" });
           }
           
           const { password: hash, id, username, role,...otherDetails } = user[0];
@@ -57,11 +57,11 @@ const authController = {
               .json({ details: { ...otherDetails }, role, username });
         
         } else {
-            return res.json({ error: "Wrong password!" });
+            return res.status(401).json({ error: "Wrong password!" });
         }
         } catch (error) {
           console.log(error);
-          res.json({
+          res.status(401).json({
             error: error.message
           });
         }
@@ -69,12 +69,12 @@ const authController = {
     getAll: async (req, res) => {
         try {
             const [rows, fields] = await pool.query("SELECT * FROM musteri")
-            res.json({
+            res.status(200).json({
                 data: rows
             })
         } catch (error) {
             console.log(error)
-            res.json({
+            res.status(401).json({
                 status: "error"
             })
         }
