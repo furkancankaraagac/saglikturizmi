@@ -97,7 +97,7 @@ const postsController = {
     },
     getallbranches: async (req, res) => {
         try {
-            const [rows, fields] = await pool.query("select distinct name  from branches b ")
+            const [rows, fields] = await pool.query("select distinct name, image  from branches b ")
             res.status(200).json({
                 data: rows
             })
