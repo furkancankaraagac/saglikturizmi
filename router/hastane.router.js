@@ -10,6 +10,7 @@ router.get("/kullanıcılar", verifyTokenAndHastane,hastaneController.getAllclie
 router.post("/createclient", verifyTokenAndHastane,hastaneController.createClient)
 router.post("/createdocktor", verifyTokenAndHastane,hastaneController.createdocktor)
 router.put("/update/:id", verifyTokenAndHastane,adminController.updateusers)
+router.post("/createbranches", verifyTokenAndHastane,hastaneController.createbranches)
 
 
 module.exports=router
