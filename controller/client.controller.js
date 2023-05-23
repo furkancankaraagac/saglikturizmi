@@ -4,7 +4,7 @@ const clientController = {
     doktorlarım: async (req, res) => {
         try {
             const { userId } = req.user;
-            const [rows, fields] = await pool.query("select u.id,d.tag,u.username,d.content,u.`role`,b.name,u.email from users u join doktorinfo d on u.id=d.docktor_id join doktorbranches db on d.docktor_id=db.docktor_id join branches b on db.branches_id=b.id where u.id in (select docktor_id  from usershastane  where users_id=?)", [userId]);
+            const [rows, fields] = await pool.query("select  u.id,d.tag,u.username,d.content,u.`role`,u.email from users u join doktorinfo d on u.id=d.docktor_id  where u.id in (select docktor_id  from usershastane  where users_id=?)", [userId]);
             
             if(rows.length === 0) { // veritabanından sonuç gelmezse
                 return res.status(401).json({ status: "error", message: "Hastanın Herhangi Bir Doktoru yoktur" }); // hata mesajı gönder
@@ -45,6 +45,27 @@ const clientController = {
             }
             else{
                 return res.status(200).json({ status: "succes", message: "Mesaj Başarıyla gönderildi" });
+            }
+
+            res.status(401).json({ data: rows }); // veritabanından dönen sonuçları gönder
+        } catch (error) {
+            console.log(error);
+            res.status(401).json({ status: "error", message: "Veri Tabanından İsteğe Dönüş Alınamadı" }); // hata mesajı gönder
+        }
+        
+    },
+    doktorayorumyap: async (req, res) => {
+        try {
+            const {docktor_id}=req.body;
+            const {yorum}=req.body;//tıklanılan doktor_id alması lazım
+            const { userId } = req.user;
+            const sql = "INSERT INTO hospital.doktor_yorumlar (yorum, user_id, doktor_id, yorumzamanı) VALUES(?, ?, ?,sysdate())"
+            const [rows, fields] = await pool.query(sql, [yorum, userId,docktor_id])  
+            if(rows.length === 0) { // veritabanından sonuç gelmezse
+                return res.status(401).json({ status: "error", message: "Yorum gönderilemedi" }); // hata mesajı gönder
+            }
+            else{
+                return res.status(200).json({ status: "succes", message: "Yorum Başarıyla gönderildi" });
             }
 
             res.status(401).json({ data: rows }); // veritabanından dönen sonuçları gönder

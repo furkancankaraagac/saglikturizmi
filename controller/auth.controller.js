@@ -54,7 +54,7 @@ const authController = {
                 httpOnly: true,
               })
               .status(200)
-              .json({ details: { ...otherDetails }, role, username });
+              .json({ id,details: { ...otherDetails }, role, username });
         
         } else {
             return res.status(401).json({ error: "Wrong password!" });

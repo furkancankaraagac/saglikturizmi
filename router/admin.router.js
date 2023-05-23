@@ -7,7 +7,7 @@ const {verifyTokenAndDoctor,verifyTokenAndAdmin} = require ("../utils/verifyToke
 router.post("/createhastane", verifyTokenAndAdmin,adminController.createhastane)
 router.post("/updatehastane", verifyTokenAndAdmin,adminController.updatehastane)
 //router.delete("/deletehastane", verifyTokenAndAdmin,adminController.deletehastane)
-router.post("/createbranches", verifyTokenAndAdmin,adminController.createbranches)
+router.post("/deletedocktor", verifyTokenAndAdmin,adminController.deletedoctor)
 
 
 

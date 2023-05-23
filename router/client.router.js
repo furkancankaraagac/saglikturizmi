@@ -5,8 +5,9 @@ const {verifyTokenAndClient} = require ("../utils/verifyToken.js");
 //aa
 
 
-router.post("/doktorlarim",verifyTokenAndClient,clientController.doktorlarım)
-router.post("/mesajlarim",verifyTokenAndClient,clientController.mesajlarim)
+router.get("/doktorlarim",verifyTokenAndClient,clientController.doktorlarım)
+router.get("/mesajlarim",verifyTokenAndClient,clientController.mesajlarim)
 router.post("/mesajgonder",verifyTokenAndClient,clientController.mesaj_gonder)
+router.post("/doktorayorumyap",verifyTokenAndClient,clientController.doktorayorumyap)
 
 module.exports=router
